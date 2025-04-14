@@ -1,11 +1,9 @@
 import os
 import pickle
-import mlflow
 import re
 import numpy as np
-import keras
 import tensorflow as tf
-from tensorflow.keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.preprocessing.sequence import pad_sequences # type: ignore
 from flask import Flask, request, jsonify
 from opencensus.ext.azure.log_exporter import AzureLogHandler
 import logging
@@ -13,12 +11,8 @@ import logging
 # Configuration du logger pour Application Insights
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
-
-# Si vous avez une clé d'instrumentation Application Insights
-# Sinon, commentez cette ligne ou définissez la clé via une variable d'environnement
-# INSTRUMENTATION_KEY = os.environ.get("APPINSIGHTS_INSTRUMENTATIONKEY", "")
-# if INSTRUMENTATION_KEY:
-#     logger.addHandler(AzureLogHandler(connection_string=f'InstrumentationKey={INSTRUMENTATION_KEY}'))
+INSTRUMENTATION_KEY = "InstrumentationKey=275b0505-425b-45cb-8ea5-5d5a64304e97"
+logger.addHandler(AzureLogHandler(connection_string=INSTRUMENTATION_KEY))
 
 app = Flask(__name__)
 
