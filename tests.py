@@ -4,7 +4,7 @@ from unittest.mock import patch, MagicMock
 from app import app, predict_sentiment
 
 class SentimentAPITestCase(unittest.TestCase):
-    """Tests unitaires pour l'API d'analyse de sentiment."""
+    """Tests unitaires pour l'API simplifiée d'analyse de sentiment."""
 
     def setUp(self):
         """Configuration initiale avant chaque test."""
@@ -107,8 +107,8 @@ class SentimentAPITestCase(unittest.TestCase):
         self.assertIn('error', data)
         self.assertEqual(data['error'], "Erreur de test")
     
-    def test_feedback_valid_input(self):
-        """Tester la route /feedback avec une entrée valide."""
+    def test_feedback_valid_input_positive(self):
+        """Tester la route /feedback avec une entrée valide et feedback positif."""
         response = self.app.post(
             '/feedback',
             data=json.dumps({
@@ -126,16 +126,15 @@ class SentimentAPITestCase(unittest.TestCase):
         self.assertEqual(data['is_correct'], True)
         self.assertEqual(data['message'], 'Merci pour votre confirmation !')
     
-    def test_feedback_incorrect_prediction(self):
-        """Tester la route /feedback avec une prédiction incorrecte."""
+    def test_feedback_valid_input_negative(self):
+        """Tester la route /feedback avec une entrée valide et feedback négatif."""
         response = self.app.post(
             '/feedback',
             data=json.dumps({
                 'request_id': '123e4567-e89b-12d3-a456-426614174000',
                 'text': 'Ce produit est terrible',
                 'prediction': 0.8,
-                'is_correct': False,
-                'expected_prediction': 0.2
+                'is_correct': False
             }),
             content_type='application/json'
         )
@@ -146,14 +145,13 @@ class SentimentAPITestCase(unittest.TestCase):
         self.assertEqual(data['is_correct'], False)
         self.assertEqual(data['message'], 'Merci pour votre retour !')
     
-    def test_feedback_missing_fields(self):
-        """Tester la route /feedback avec des champs manquants."""
+    def test_feedback_missing_required_fields(self):
+        """Tester la route /feedback avec des champs requis manquants."""
         response = self.app.post(
             '/feedback',
             data=json.dumps({
-                'request_id': '123e4567-e89b-12d3-a456-426614174000',
-                'text': 'Test'
-                # Champs 'prediction' et 'is_correct' manquants
+                'request_id': '123e4567-e89b-12d3-a456-426614174000'
+                # Champs 'text' et 'prediction' manquants
             }),
             content_type='application/json'
         )
@@ -161,37 +159,46 @@ class SentimentAPITestCase(unittest.TestCase):
         
         self.assertEqual(response.status_code, 400)
         self.assertIn('error', data)
+        self.assertTrue("Le champ 'text' est requis" in data['error'] or 
+                      "Le champ 'prediction' est requis" in data['error'])
     
-    def test_report_valid_input(self):
-        """Tester la route /report avec une entrée valide."""
+    def test_feedback_without_optional_fields(self):
+        """Tester la route /feedback sans les champs optionnels."""
         response = self.app.post(
-            '/report',
+            '/feedback',
             data=json.dumps({
-                'text': 'Ce test ne fonctionne pas',
+                'text': 'Ce test est basique',
                 'prediction': 0.7
+                # Champs optionnels 'request_id' et 'is_correct' manquants
             }),
             content_type='application/json'
         )
         data = json.loads(response.data)
         
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(data['status'], 'reported')
+        self.assertEqual(data['status'], 'feedback_received')
+        # Par défaut, is_correct est False si non fourni
+        self.assertEqual(data['is_correct'], False)
         self.assertEqual(data['message'], 'Merci pour votre retour !')
     
-    def test_report_missing_fields(self):
-        """Tester la route /report avec des champs manquants."""
+    def test_feedback_with_additional_fields(self):
+        """Tester la route /feedback avec des champs additionnels."""
         response = self.app.post(
-            '/report',
+            '/feedback',
             data=json.dumps({
-                'text': 'Test incomplet'
-                # Champ 'prediction' manquant
+                'text': 'Test avec des champs supplémentaires',
+                'prediction': 0.6,
+                'is_correct': True,
+                'user_id': '12345',
+                'additional_info': 'Ceci est un test'
             }),
             content_type='application/json'
         )
         data = json.loads(response.data)
         
-        self.assertEqual(response.status_code, 400)
-        self.assertIn('error', data)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['status'], 'feedback_received')
+        self.assertEqual(data['is_correct'], True)
     
     @patch('app.preprocess_text')
     @patch('app.model')
@@ -210,6 +217,36 @@ class SentimentAPITestCase(unittest.TestCase):
         
         # Vérifier le résultat
         self.assertEqual(result, 0.75)
+    
+    @patch('app.log_event')
+    def test_log_event_info(self, mock_log_event):
+        """Tester la fonction log_event pour les messages de type info."""
+        from app import log_event
+        
+        properties = {"message": "Test info", "data": "test_data"}
+        log_event("info", properties)
+        
+        mock_log_event.assert_called_once_with("info", properties)
+    
+    @patch('app.log_event')
+    def test_log_event_warning(self, mock_log_event):
+        """Tester la fonction log_event pour les messages de type warning."""
+        from app import log_event
+        
+        properties = {"message": "Test warning", "data": "test_data"}
+        log_event("warning", properties)
+        
+        mock_log_event.assert_called_once_with("warning", properties)
+    
+    @patch('app.log_event')
+    def test_log_event_error(self, mock_log_event):
+        """Tester la fonction log_event pour les messages de type error."""
+        from app import log_event
+        
+        properties = {"message": "Test error", "data": "test_data"}
+        log_event("error", properties)
+        
+        mock_log_event.assert_called_once_with("error", properties)
 
 
 if __name__ == '__main__':

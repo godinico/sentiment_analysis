@@ -66,19 +66,18 @@ if st.button("Détecter le sentiment") or (tweet != st.session_state.tweet and t
 
 # Affichage des boutons de feedback uniquement si une prédiction a été faite et pas encore de feedback
 if st.session_state.request_id and not st.session_state.feedback_sent:
-    st.write("Cette prédiction est-elle correcte ?")
+    st.write("Cette prédiction vous semble-t-elle correcte ?")
     col1, col2 = st.columns(2)
     
     with col1:
         if st.button("✅ Prédiction correcte"):
-            # Envoyer le feedback positif
             feedback_response = requests.post(f"{API_URL}/feedback", 
-                                            json={
-                                                "request_id": st.session_state.request_id,
-                                                "text": st.session_state.tweet,
-                                                "prediction": st.session_state.sentiment,
-                                                "is_correct": True
-                                            })
+                                          json={
+                                              "request_id": st.session_state.request_id,
+                                              "text": st.session_state.tweet,
+                                              "prediction": st.session_state.sentiment,
+                                              "is_correct": True
+                                          })
             if feedback_response.status_code == 200:
                 st.success("Merci pour votre confirmation!")
                 reset_feedback()
@@ -87,15 +86,13 @@ if st.session_state.request_id and not st.session_state.feedback_sent:
     
     with col2:
         if st.button("❌ Prédiction incorrecte"):
-            # Envoyer le feedback négatif
             feedback_response = requests.post(f"{API_URL}/feedback", 
-                                            json={
-                                                "request_id": st.session_state.request_id,
-                                                "text": st.session_state.tweet,
-                                                "prediction": st.session_state.sentiment,
-                                                "is_correct": False,
-                                                "expected_prediction": 1.0 - st.session_state.sentiment  # Inverse de la prédiction actuelle
-                                            })
+                                          json={
+                                              "request_id": st.session_state.request_id,
+                                              "text": st.session_state.tweet,
+                                              "prediction": st.session_state.sentiment,
+                                              "is_correct": False
+                                          })
             if feedback_response.status_code == 200:
                 st.info("Merci d'avoir signalé cette erreur. Nous utiliserons ce retour pour améliorer notre modèle.")
                 reset_feedback()
