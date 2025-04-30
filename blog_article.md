@@ -2,13 +2,22 @@
 
 ## 1. Introduction
 
+<p align="justify">
 Dans un monde où les réseaux sociaux jouent un rôle clé dans la communication, l'analyse des sentiments exprimés dans les tweets est devenue une tâche cruciale pour les entreprises, les chercheurs et les décideurs. C'est notamment le cas de la compagnie aérienne Air Paradis, qui souhaite acquérir une solution d'intelligence artificielle capable de prédire le sentiment associé à un tweet, afin d'anticiper et de gérer les éventuels bad buzz pouvant l'affecter.
+</p>
 
+<p align="justify">
 Cet article décrit l'approche adoptée pour répondre au besoin d'Air Paradis, en comparant différents modèles de prédiction de sentiment et en intégrant une méthodologie MLOps (Machine Learning Operations) tout au long des différentes étapes.
+</p>
 
-Au cours de ce projet, nous avons testé et comparé trois approches pour la détection de sentiments dans les tweets : un modèle sur mesure simple, des modèles sur mesure avancés basés sur des réseaux de neurones profonds (Deep Learning), et un modèle avancé basé sur [BERT](https://huggingface.co/docs/transformers/model_doc/bert). En parallèle, une démarche MLOps a été mise en place pour garantir une gestion efficace du cycle de vie du modèle, de son développement à son déploiement en production.
+<p align="justify">
+Au cours de ce projet, nous avons testé et comparé trois approches pour la détection de sentiments dans les tweets : un modèle sur mesure simple, des modèles sur mesure avancés basés sur des réseaux de neurones profonds (Deep Learning), et un modèle avancé <a href="https://huggingface.co/docs/transformers/model_doc/bert">BERT</a>. En parallèle, une démarche MLOps a été mise en place pour garantir une gestion efficace du cycle de vie du modèle, de son développement à son déploiement en production.
+</p>
 
-Nous aborderons également le suivi des performances en production grâce à [Azure Application Insights](https://learn.microsoft.com/fr-fr/azure/azure-monitor/app/app-insights-overview) et proposerons une démarche pour analyser les statistiques et améliorer le modèle dans le temps.
+<p align="justify">
+Nous aborderons également le suivi des performances en production grâce à
+   <a href="https://learn.microsoft.com/fr-fr/azure/azure-monitor/app/app-insights-overview">Azure Application Insights</a> et proposerons une démarche pour analyser les statistiques et améliorer le modèle dans le temps.
+</p>
 
 ## 2. Les Modèles de Prédiction de Sentiments
 
