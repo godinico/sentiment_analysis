@@ -12,17 +12,17 @@ Ce projet a été développé pour Air Paradis, une compagnie aérienne cherchan
 ## Structure du Projet
 ```
 
-├── mlruns/                          # Tracking et enregistrement des modèles via MLflow
+├── mlruns/                           # Tracking et enregistrement des modèles via MLflow
 ├── .github/
 │   └── workflows/
-│       └── azure_deploy.yml         # Pipeline CI/CD pour le déploiement sur Azure
-├── notebook_modele/                 # Notebook d'entraînement et évaluation des modèles
-├── app.py                           # Code de l'API Flask
-├── modele LSTM.h5                   # Modèle LSTM entraîné utilisé par l'API
-├── tokenizer.pkl                    # Tokenizer pour le prétraitement du texte
-├── tests.py                         # Tests unitaires pour l'API
-├── api_test_interface.py            # Interface Streamlit pour tester l'API déployée
-└── requirements.txt                 # Liste des dépendances de l'API
+│       └── azure_deploy.yml          # Pipeline CI/CD pour le déploiement sur Azure via GitHub Actions
+├── notebook_modeles_sur_mesure.ipynb # Notebook d'entraînement et évaluation des modèles
+├── app.py                            # Code de l'API Flask
+├── modele LSTM.h5                    # Modèle LSTM entraîné utilisé par l'API
+├── tokenizer.pkl                     # Tokenizer entraîné pour le prétraitement du texte
+├── tests.py                          # Tests unitaires pour l'API
+├── api_test_interface.py             # Interface Streamlit pour tester l'API déployée sur Azure
+└── requirements.txt                  # Liste des dépendances de l'API
 ```
 
 ## Approche MLOps
