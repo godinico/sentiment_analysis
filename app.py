@@ -20,7 +20,7 @@ app = Flask(__name__)
 
 # Chargement des ressources
 model = tf.keras.models.load_model('model_LSTM.h5')
-with open('trained_tokenizer.pkl', 'rb') as file:
+with open('tokenizer.pkl', 'rb') as file:
     tokenizer = pickle.load(file)
 
 # Utilitaires

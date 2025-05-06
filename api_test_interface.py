@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 
+# URL de l'API déployée sur Azure
 API_URL = "https://tweet-sentiment-analysis-api-cwgzfag8caf0bda4.westeurope-01.azurewebsites.net"
 
 st.markdown("""
@@ -24,7 +25,7 @@ if 'sentiment' not in st.session_state:
 if 'feedback_sent' not in st.session_state:
     st.session_state.feedback_sent = False
 
-# Zone de saisie du tweet avec un label explicite mais masqué
+# Zone de saisie du tweet
 tweet = st.text_area(
     "Texte du tweet", 
     height=68, 
@@ -64,7 +65,7 @@ if st.button("Détecter le sentiment") or (tweet != st.session_state.tweet and t
     else:
         st.warning("Veuillez entrer un tweet à analyser.")
 
-# Affichage des boutons de feedback uniquement si une prédiction a été faite et pas encore de feedback
+# Affichage des boutons de feedback
 if st.session_state.request_id and not st.session_state.feedback_sent:
     st.write("Cette prédiction vous semble-t-elle correcte ?")
     col1, col2 = st.columns(2)

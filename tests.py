@@ -4,7 +4,7 @@ from unittest.mock import patch, MagicMock
 from app import app, predict_sentiment
 
 class SentimentAPITestCase(unittest.TestCase):
-    """Tests unitaires pour l'API simplifiée d'analyse de sentiment."""
+    """Tests unitaires pour l'API d'analyse de sentiment."""
 
     def setUp(self):
         """Configuration initiale avant chaque test."""
