@@ -15,7 +15,7 @@ Ce projet a été développé pour Air Paradis, une compagnie aérienne cherchan
 ├── mlruns/                           # Tracking et enregistrement des modèles via MLflow
 ├── .github/
 │   └── workflows/
-│       └── azure_deploy.yml          # Pipeline CI/CD pour le déploiement sur Azure via GitHub Actions
+│       └── azure_deploy.yml          # Pipeline CI/CD pour le déploiement sur Azure avec GitHub Actions
 ├── notebook_modeles_sur_mesure.ipynb # Notebook d'entraînement et évaluation des modèles
 ├── app.py                            # Code de l'API Flask
 ├── modele LSTM.h5                    # Modèle LSTM entraîné utilisé par l'API
