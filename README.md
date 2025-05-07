@@ -1,7 +1,7 @@
 # Projet sur l'Analyse de Sentiments de Tweets
 
 ## Description du Projet
-Ce projet a été développé pour Air Paradis, une compagnie aérienne cherchant à anticiper les bad buzz sur les réseaux sociaux. L'objectif est de créer un système de prédiction de sentiment basé sur le contenu des tweets, permettant d'identifier les messages négatifs nécessitant une attention particulière.
+Ce projet a été développé pour Air Paradis, une compagnie aérienne cherchant à anticiper les bad buzz sur les réseaux sociaux. L'objectif est de créer un système de prédiction de sentiments basé sur le contenu des tweets, permettant d'identifier les messages négatifs nécessitant une attention particulière.
 
 ## Fonctionnalités
 - Prédiction du sentiment (positif/négatif) associé à un tweet
